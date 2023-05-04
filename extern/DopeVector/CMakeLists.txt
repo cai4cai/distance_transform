@@ -97,3 +97,5 @@ if(WITH_RTTI)
 else()
 	message(STATUS "RTTI is off")
 endif()
+
+add_subdirectory(example)

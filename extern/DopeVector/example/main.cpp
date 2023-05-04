@@ -20,13 +20,13 @@ int main(int argc, char *argv[]) {
   dope::Index2 size(10, 10);
   dope::Grid<std::size_t, 2> grid2D(size, std::size_t(0));
   for (std::size_t i = 0; i < size[0]; ++i) {
-    DopeVector<std::size_t, 1> grid_row = grid2D[i];
+    dope::DopeVector<std::size_t, 1> grid_row = grid2D[i];
     for (std::size_t j = 0; j < size[1]; ++j) grid_row[j] = i * size[1] + j;
   }
 
   std::cout << "Initial Grid values:\n";
   for (std::size_t i = 0; i < size[0]; ++i) {
-    DopeVector<std::size_t, 1> grid_row = grid2D[i];
+    dope::DopeVector<std::size_t, 1> grid_row = grid2D[i];
     for (std::size_t j = 0; j < size[1]; ++j) std::cout << grid_row[j] << '\t';
     std::cout << '\n';
   }
@@ -71,8 +71,8 @@ int main(int argc, char *argv[]) {
     std::cout << '\n';
   }
 
-  dope::Grid<std::size_t, 10> big_grid(Index<10>(10));
-  Index<10> new_order(1, 0, 2, 5, 4, 7, 3, 6, 9, 8);
+  dope::Grid<std::size_t, 10> big_grid(dope::Index<10>(10));
+  dope::Index<10> new_order(1, 0, 2, 5, 4, 7, 3, 6, 9, 8);
 
   start = std::chrono::steady_clock::now();
 
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
     std::cout << '\n';
   }
   for (std::size_t i = 0; i < size[0]; ++i) {
-    DopeVector<std::size_t, 1> grid_row = grid2D[i];
+    dope::DopeVector<std::size_t, 1> grid_row = grid2D[i];
     for (std::size_t j = 0; j < size[1]; ++j) grid_row[j] = i * size[1] + j;
   }
   std::cout << "Lower right window != upper left window ? (should be true) "
