@@ -8,6 +8,10 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_ITERATOR_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_ITERATOR_HPP_
+
+#include <algorithm>
 #include <limits>
 
 #include "DopeVector/internal/Iterator.h"
@@ -350,3 +354,5 @@ inline bool Iterator<T, Dimension, Const>::operator>=(
 }  // namespace internal
 
 }  // namespace dope
+
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_ITERATOR_HPP_

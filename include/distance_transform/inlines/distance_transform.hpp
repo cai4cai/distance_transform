@@ -13,11 +13,11 @@
 #ifndef INCLUDE_DISTANCE_TRANSFORM_INLINES_DISTANCE_TRANSFORM_HPP_
 #define INCLUDE_DISTANCE_TRANSFORM_INLINES_DISTANCE_TRANSFORM_HPP_
 
-#include <cmath>
-#include <vector>
 #include <algorithm>
-#include <utility>
+#include <cmath>
 #include <limits>
+#include <utility>
+#include <vector>
 
 #include "distance_transform/distance_transform.h"
 
@@ -273,10 +273,10 @@ inline void DistanceTransform::distanceL2(const dope::DopeVector<Scalar, 1> &f,
   }
   dope::SizeType k = static_cast<dope::SizeType>(
       0);  // index of rightmost parabola in lower envelope
-  dope::SizeType *v = new dope::SizeType[f.sizeAt(
-      0)];  // locations of parabolas in lower envelope
-  double *z =
-      new double[f.sizeAt(0) + 1];  // locations of boundaries between parabolas
+  std::vector<dope::SizeType> v(
+      f.sizeAt(0));  // locations of parabolas in lower envelope
+  std::vector<double> z(f.sizeAt(0) +
+                        1);  // locations of boundaries between parabolas
   double s = static_cast<double>(0);
   // initialization
   v[0] = static_cast<dope::SizeType>(0);
@@ -306,9 +306,6 @@ inline void DistanceTransform::distanceL2(const dope::DopeVector<Scalar, 1> &f,
     D[q] = f[v[k]] +
            (q - static_cast<Scalar>(v[k])) * (q - static_cast<Scalar>(v[k]));
   }
-  // delete allocated memory
-  delete[] z;
-  delete[] v;
 }
 
 template <typename Scalar, dope::SizeType DIM>
@@ -364,10 +361,10 @@ inline void DistanceTransform::distanceL2(
   }
   dope::SizeType k = static_cast<dope::SizeType>(
       0);  // index of rightmost parabola in lower envelope
-  dope::SizeType *v = new dope::SizeType[f.sizeAt(
-      0)];  // locations of parabolas in lower envelope
-  double *z =
-      new double[f.sizeAt(0) + 1];  // locations of boundaries between parabolas
+  std::vector<dope::SizeType> v(
+      f.sizeAt(0));  // locations of parabolas in lower envelope
+  std::vector<double> z(f.sizeAt(0) +
+                        1);  // locations of boundaries between parabolas
   double s = static_cast<double>(0);
   // initialization
   v[0] = static_cast<dope::SizeType>(0);
@@ -398,9 +395,6 @@ inline void DistanceTransform::distanceL2(
            (q - static_cast<Scalar>(v[k])) * (q - static_cast<Scalar>(v[k]));
     Ipost[q] = Ipre[v[k]];
   }
-  // delete allocated memory
-  delete[] z;
-  delete[] v;
 }
 
 template <typename Scalar, dope::SizeType DIM>
