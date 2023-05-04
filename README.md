@@ -3,9 +3,9 @@ C++ Distance Transform
 
 This software is a C++11 implementation of the algorithm described in:
 
->** * Distance Transforms of Sampled Functions * **
->Pedro F. Felzenszwalb, Daniel P. Huttenlocher
->Theory of Computing, Vol. 8, No. 19, September 2012
+> **Distance Transforms of Sampled Functions** \
+> Pedro F. Felzenszwalb, Daniel P. Huttenlocher \
+> Theory of Computing, Vol. 8, No. 19, September 2012
 
 See their [project site](http://cs.brown.edu/~pff/dt/).
 
@@ -32,7 +32,7 @@ This software takes some cues from both their implementation and the one by Sofi
     of the nearest element to the one at any position in the array. Not just its
     distance (taken from the implementation by Sofien Bouaziz and Andrea
     Tagliasacchi).
-* **Parallel execution by giving the number of threads to spread.
+* **Parallel execution** by giving the number of threads to spread.
 
 ### License ###
 This software is subject to the [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) License.
