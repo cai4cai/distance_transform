@@ -14,18 +14,18 @@
 #include <cstdlib>
 
 #ifndef _SIZETYPE_
-	#define DOPE_SIZETYPE std::size_t
+#define DOPE_SIZETYPE std::size_t
 #endif
 
 namespace dope {
 
-	/**
-	 * @brief SizeType is a common type for indexes. It is possible to change
-	 *        this by changing the define above: just define _SIZETYPE_ before
-	 *        including this file.
-	 */
-	using SizeType = std::make_unsigned<DOPE_SIZETYPE>::type;
+/**
+ * @brief SizeType is a common type for indexes. It is possible to change
+ *        this by changing the define above: just define _SIZETYPE_ before
+ *        including this file.
+ */
+using SizeType = std::make_unsigned<DOPE_SIZETYPE>::type;
 
-}
+}  // namespace dope
 
-#endif // Common_hpp
+#endif  // Common_hpp

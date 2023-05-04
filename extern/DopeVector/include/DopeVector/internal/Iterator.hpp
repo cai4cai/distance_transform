@@ -11,172 +11,169 @@
 #ifndef Iterator_hpp
 #define Iterator_hpp
 
+#include <DopeVector/Index.hpp>
 #include <functional>
 #include <iterator>
 #include <type_traits>
-#include <DopeVector/Index.hpp>
 
 namespace dope {
 
-	template < typename T, SizeType Dimension > class DopeVector;
+template <typename T, SizeType Dimension>
+class DopeVector;
 
-	namespace internal {
+namespace internal {
 
-		struct output_random_access_iterator_tag : public std:: output_iterator_tag, public std:: random_access_iterator_tag { };
+struct output_random_access_iterator_tag
+    : public std::output_iterator_tag,
+      public std::random_access_iterator_tag {};
 
-		/**
-		 * @brief The Iterator class
-		 */
-		template < typename T, SizeType Dimension, bool Const >
-		class Iterator {
-		public:
+/**
+ * @brief The Iterator class
+ */
+template <typename T, SizeType Dimension, bool Const>
+class Iterator {
+ public:
+  ////////////////////////////////////////////////////////////////////
+  // TYPEDEFS
+  ////////////////////////////////////////////////////////////////////
 
-			////////////////////////////////////////////////////////////////////
-			// TYPEDEFS
-			////////////////////////////////////////////////////////////////////
+  using difference_type = std::make_signed<SizeType>::type;
+  using value_type = T;
+  using pointer = typename std::conditional<
+      Const,
+      typename std::add_const<
+          typename std::add_pointer<value_type>::type>::type,
+      typename std::remove_const<
+          typename std::add_pointer<value_type>::type>::type>::type;
+  using reference = typename std::add_lvalue_reference<value_type>::type;
+  using iterator_category =
+      typename std::conditional<Const, std::random_access_iterator_tag,
+                                output_random_access_iterator_tag>::type;
 
-			using difference_type   = std::make_signed<SizeType>::type;
-			using value_type        = T;
-			using pointer           = typename std::conditional<Const, typename std::add_const<typename std::add_pointer<value_type>::type>::type, typename std::remove_const<typename std::add_pointer<value_type>::type>::type>::type;
-			using reference         = typename std::add_lvalue_reference<value_type>::type;
-			using iterator_category = typename std::conditional<Const, std::random_access_iterator_tag, output_random_access_iterator_tag>::type;
+  using DopeVectorType = typename std::conditional<
+      Const, typename std::add_const<DopeVector<T, Dimension>>::type,
+      typename std::remove_const<DopeVector<T, Dimension>>::type>::type;
+  using DopeVectorRef = std::reference_wrapper<DopeVectorType>;
+  using IndexD = Index<Dimension>;
+  using self_type = Iterator;
 
-			using DopeVectorType    = typename std::conditional<Const, typename std::add_const<DopeVector<T, Dimension>>::type, typename std::remove_const<DopeVector<T, Dimension>>::type>::type;
-			using DopeVectorRef     = std::reference_wrapper<DopeVectorType>;
-			using IndexD            = Index< Dimension >;
-			using self_type         = Iterator;
+  ////////////////////////////////////////////////////////////////////
 
-			////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // CONSTRUCTORS
+  ////////////////////////////////////////////////////////////////////
 
+  /**
+   * @brief Default constructor.
+   */
+  inline Iterator();
 
+  /**
+   * @brief Constructor.
+   */
+  explicit inline Iterator(DopeVectorType &dope_vector,
+                           const SizeType i = static_cast<SizeType>(0),
+                           const bool valid = true);
 
-			////////////////////////////////////////////////////////////////////
-			// CONSTRUCTORS
-			////////////////////////////////////////////////////////////////////
+  /**
+   * @brief Constructor.
+   */
+  explicit inline Iterator(DopeVectorType &dope_vector, const IndexD &index,
+                           const bool valid = true);
 
-			/**
-			 * @brief Default constructor.
-			 */
-			inline Iterator();
+  /**
+   * @brief Copy constructor.
+   */
+  inline Iterator(const Iterator &other) = default;
 
-			/**
-			 * @brief Constructor.
-			 */
-			explicit inline Iterator(DopeVectorType &dope_vector, const SizeType i = static_cast<SizeType>(0), const bool valid = true);
+  /**
+   * @brief Move constructor.
+   */
+  inline Iterator(Iterator &&other) = default;
 
-			/**
-			 * @brief Constructor.
-			 */
-			explicit inline Iterator(DopeVectorType &dope_vector, const IndexD &index, const bool valid = true);
+  ////////////////////////////////////////////////////////////////////
 
+  ////////////////////////////////////////////////////////////////////
+  // INFORMATION
+  ////////////////////////////////////////////////////////////////////
 
-			/**
-			 * @brief Copy constructor.
-			 */
-			inline Iterator(const Iterator& other ) = default;
+  inline SizeType to_original() const;
+  inline SizeType to_position() const;
+  inline const IndexD &to_index() const;
+  inline bool valid() const;
+  explicit inline operator bool() const;
 
-			/**
-			 * @brief Move constructor.
-			 */
-			inline Iterator(Iterator&& other ) = default;
+  ////////////////////////////////////////////////////////////////////
 
-			////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // ASSIGNMENT
+  ////////////////////////////////////////////////////////////////////
 
+  inline self_type &operator=(const self_type &o) = default;
+  inline self_type &operator=(self_type &&o) = default;
 
+  ////////////////////////////////////////////////////////////////////
 
-			////////////////////////////////////////////////////////////////////
-			// INFORMATION
-			////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  // DATA ACCESS METHODS
+  ////////////////////////////////////////////////////////////////////
 
-			inline SizeType         to_original()    const;
-			inline SizeType         to_position()    const;
-			inline const IndexD &   to_index()       const;
-			inline bool             valid()          const;
-			explicit inline         operator bool () const;
+  inline reference operator*() const;
+  inline pointer operator->() const;
+  inline reference operator[](const SizeType n) const;
+  inline reference operator[](const IndexD &n) const;
 
-			////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
 
+  ////////////////////////////////////////////////////////////////////
+  // INCREMENT OPERATIONS
+  ////////////////////////////////////////////////////////////////////
 
+  inline self_type &operator++();
+  inline self_type operator++(int);
+  inline self_type &operator+=(const SizeType n);
+  inline self_type operator+(const SizeType n) const;
+  inline self_type &operator+=(const Index<Dimension> &n);
+  inline self_type operator+(const Index<Dimension> &n) const;
 
-			////////////////////////////////////////////////////////////////////
-			// ASSIGNMENT
-			////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
 
-			inline self_type& operator=(const self_type &o) = default;
-			inline self_type& operator=(self_type &&o)      = default;
+  ////////////////////////////////////////////////////////////////////
+  // DECREMENT OPERATIONS
+  ////////////////////////////////////////////////////////////////////
 
-			////////////////////////////////////////////////////////////////////
+  inline self_type &operator--();
+  inline self_type operator--(int);
+  inline self_type &operator-=(const SizeType n);
+  inline self_type operator-(const SizeType n) const;
+  inline self_type &operator-=(const Index<Dimension> &n);
+  inline self_type operator-(const Index<Dimension> &n) const;
+  inline difference_type operator-(const self_type &o) const;
 
+  ////////////////////////////////////////////////////////////////////
 
+  ////////////////////////////////////////////////////////////////////
+  // BOOLEAN OPERATIONS
+  ////////////////////////////////////////////////////////////////////
 
-			////////////////////////////////////////////////////////////////////
-			// DATA ACCESS METHODS
-			////////////////////////////////////////////////////////////////////
+  inline bool operator==(const self_type &o) const;
+  inline bool operator!=(const self_type &o) const;
+  inline bool operator<(const self_type &o) const;
+  inline bool operator<=(const self_type &o) const;
+  inline bool operator>(const self_type &o) const;
+  inline bool operator>=(const self_type &o) const;
 
-			inline reference   operator* ()                 const;
-			inline pointer     operator->()                 const;
-			inline reference   operator[](const SizeType n) const;
-			inline reference   operator[](const IndexD  &n) const;
+  ////////////////////////////////////////////////////////////////////
 
-			////////////////////////////////////////////////////////////////////
+ private:
+  DopeVectorRef _data;   ///< A reference to the pointed DopeVector.
+  IndexD _currentIndex;  ///< The current position.
+  bool _valid;  ///< Tells if this iterator is valid, e.g. it is not at the end.
+};
+}  // namespace internal
 
-
-
-			////////////////////////////////////////////////////////////////////
-			// INCREMENT OPERATIONS
-			////////////////////////////////////////////////////////////////////
-
-			inline self_type & operator++();
-			inline self_type   operator++(int);
-			inline self_type & operator+=(const SizeType n);
-			inline self_type   operator+ (const SizeType n)          const;
-			inline self_type & operator+=(const Index<Dimension> &n);
-			inline self_type   operator+ (const Index<Dimension> &n) const;
-
-			////////////////////////////////////////////////////////////////////
-
-
-
-			////////////////////////////////////////////////////////////////////
-			// DECREMENT OPERATIONS
-			////////////////////////////////////////////////////////////////////
-
-			inline self_type &      operator--();
-			inline self_type        operator--(int);
-			inline self_type &      operator-=(const SizeType n);
-			inline self_type        operator- (const SizeType n)          const;
-			inline self_type &      operator-=(const Index<Dimension> &n);
-			inline self_type        operator- (const Index<Dimension> &n) const;
-			inline difference_type  operator- (const self_type &o)        const;
-
-			////////////////////////////////////////////////////////////////////
-
-
-
-			////////////////////////////////////////////////////////////////////
-			// BOOLEAN OPERATIONS
-			////////////////////////////////////////////////////////////////////
-
-			inline bool operator==(const self_type &o) const;
-			inline bool operator!=(const self_type &o) const;
-			inline bool operator< (const self_type &o) const;
-			inline bool operator<=(const self_type &o) const;
-			inline bool operator> (const self_type &o) const;
-			inline bool operator>=(const self_type &o) const;
-
-			////////////////////////////////////////////////////////////////////
-
-
-
-		private:
-			DopeVectorRef       _data;          ///< A reference to the pointed DopeVector.
-			IndexD              _currentIndex;  ///< The current position.
-			bool                _valid;         ///< Tells if this iterator is valid, e.g. it is not at the end.
-		};
-	}
-
-}
+}  // namespace dope
 
 #include <DopeVector/internal/inlines/Iterator.inl>
 
-#endif // Iterator_hpp
+#endif  // Iterator_hpp
