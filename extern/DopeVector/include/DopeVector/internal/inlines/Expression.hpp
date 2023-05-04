@@ -8,6 +8,11 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_EXPRESSION_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_EXPRESSION_HPP_
+
+#include <functional>
+
 #include "DopeVector/internal/Expression.h"
 
 namespace dope {
@@ -115,3 +120,5 @@ operator%(const StaticArrayExpression<El, T, Dimension> &el,
 }  // namespace internal
 
 }  // namespace dope
+
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_EXPRESSION_HPP_

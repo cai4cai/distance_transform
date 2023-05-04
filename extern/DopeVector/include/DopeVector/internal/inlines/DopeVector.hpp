@@ -8,6 +8,9 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_DOPEVECTOR_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_DOPEVECTOR_HPP_
+
 #include <array>
 #include <memory>
 
@@ -870,3 +873,5 @@ inline bool DopeVector<T, 1>::operator!=(const DopeVector<T, 1> &r) const {
 }
 
 }  // namespace dope
+
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_DOPEVECTOR_HPP_

@@ -10,7 +10,14 @@
 // Author: Giorgio Marcias
 // email: marcias.giorgio@gmail.com
 
+#ifndef INCLUDE_DISTANCE_TRANSFORM_INLINES_DISTANCE_TRANSFORM_HPP_
+#define INCLUDE_DISTANCE_TRANSFORM_INLINES_DISTANCE_TRANSFORM_HPP_
+
 #include <cmath>
+#include <vector>
+#include <algorithm>
+#include <utility>
+#include <limits>
 
 #include "distance_transform/distance_transform.h"
 
@@ -270,7 +277,7 @@ inline void DistanceTransform::distanceL2(const dope::DopeVector<Scalar, 1> &f,
       0)];  // locations of parabolas in lower envelope
   double *z =
       new double[f.sizeAt(0) + 1];  // locations of boundaries between parabolas
-  double s = double(0);
+  double s = static_cast<double>(0);
   // initialization
   v[0] = static_cast<dope::SizeType>(0);
   z[0] = -std::numeric_limits<double>::max();
@@ -361,7 +368,7 @@ inline void DistanceTransform::distanceL2(
       0)];  // locations of parabolas in lower envelope
   double *z =
       new double[f.sizeAt(0) + 1];  // locations of boundaries between parabolas
-  double s = double(0);
+  double s = static_cast<double>(0);
   // initialization
   v[0] = static_cast<dope::SizeType>(0);
   z[0] = -std::numeric_limits<double>::max();
@@ -415,3 +422,5 @@ inline void DistanceTransform::element_wiseSquareRoot(
 }
 
 }  // namespace dt
+
+#endif  // INCLUDE_DISTANCE_TRANSFORM_INLINES_DISTANCE_TRANSFORM_HPP_
