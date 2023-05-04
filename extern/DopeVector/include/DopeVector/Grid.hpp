@@ -8,11 +8,14 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef Grid_hpp
-#define Grid_hpp
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_GRID_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_GRID_HPP_
 
-#include <DopeVector/DopeVector.hpp>
+#include <memory>
+#include <utility>
 #include <vector>
+
+#include "DopeVector/DopeVector.hpp"
 
 namespace dope {
 
@@ -403,6 +406,6 @@ using StandardGrid3D = Grid<T, static_cast<SizeType>(3)>;
 
 }  // namespace dope
 
-#include <DopeVector/internal/inlines/Grid.inl>
+#include "DopeVector/internal/inlines/Grid.inl"
 
-#endif  // Grid_hpp
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_GRID_HPP_

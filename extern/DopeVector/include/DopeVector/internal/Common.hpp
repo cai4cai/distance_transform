@@ -8,8 +8,8 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef Common_hpp
-#define Common_hpp
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_COMMON_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_COMMON_HPP_
 
 #include <cstdlib>
 
@@ -28,4 +28,4 @@ using SizeType = std::make_unsigned<DOPE_SIZETYPE>::type;
 
 }  // namespace dope
 
-#endif  // Common_hpp
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_COMMON_HPP_

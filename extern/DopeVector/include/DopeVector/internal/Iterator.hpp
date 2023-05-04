@@ -8,13 +8,14 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef Iterator_hpp
-#define Iterator_hpp
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_ITERATOR_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_ITERATOR_HPP_
 
-#include <DopeVector/Index.hpp>
 #include <functional>
 #include <iterator>
 #include <type_traits>
+
+#include "DopeVector/Index.hpp"
 
 namespace dope {
 
@@ -174,6 +175,6 @@ class Iterator {
 
 }  // namespace dope
 
-#include <DopeVector/internal/inlines/Iterator.inl>
+#include "DopeVector/internal/inlines/Iterator.inl"
 
-#endif  // Iterator_hpp
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_ITERATOR_HPP_

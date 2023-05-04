@@ -8,12 +8,13 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef Expression_hpp
-#define Expression_hpp
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EXPRESSION_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EXPRESSION_HPP_
 
-#include <DopeVector/internal/Common.hpp>
 #include <array>
 #include <functional>
+
+#include "DopeVector/internal/Common.hpp"
 
 namespace dope {
 
@@ -39,7 +40,7 @@ class StaticArrayUnaryExpression
   static const Op _op;
 
  public:
-  inline StaticArrayUnaryExpression(const E &e);
+  inline explicit StaticArrayUnaryExpression(const E &e);
 
   inline T operator[](const SizeType i) const;
 };
@@ -93,10 +94,10 @@ operator%(const StaticArrayExpression<El, T, Dimension> &el,
 
 }  // namespace dope
 
-#include <DopeVector/internal/inlines/Expression.inl>
+#include "DopeVector/internal/inlines/Expression.inl"
 
 #ifdef DOPE_USE_EIGEN
-#include <DopeVector/internal/eigen_support/EigenExpression.hpp>
+#include "DopeVector/internal/eigen_support/EigenExpression.hpp"
 #endif
 
-#endif
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EXPRESSION_HPP_

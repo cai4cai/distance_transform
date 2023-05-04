@@ -8,13 +8,14 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef DopeVector_hpp
-#define DopeVector_hpp
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_DOPEVECTOR_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_DOPEVECTOR_HPP_
 
-#include <DopeVector/internal/Iterator.hpp>
 #include <cstring>
 #include <sstream>
 #include <stdexcept>
+
+#include "DopeVector/internal/Iterator.hpp"
 
 namespace dope {
 
@@ -940,6 +941,6 @@ using DopeVector3D = DopeVector<T, 3>;
 
 }  // namespace dope
 
-#include <DopeVector/internal/inlines/DopeVector.inl>
+#include "DopeVector/internal/inlines/DopeVector.inl"
 
-#endif /* DopeVector_hpp */
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_DOPEVECTOR_HPP_

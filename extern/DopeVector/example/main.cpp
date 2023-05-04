@@ -8,18 +8,17 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#include <DopeVector/DopeVector.hpp>
-#include <DopeVector/Grid.hpp>
 #include <chrono>
 #include <iomanip>
 #include <iostream>
 #include <vector>
 
-using namespace dope;
+#include "DopeVector/DopeVector.hpp"
+#include "DopeVector/Grid.hpp"
 
 int main(int argc, char *argv[]) {
-  Index2 size(10, 10);
-  Grid<std::size_t, 2> grid2D(size, std::size_t(0));
+  dope::Index2 size(10, 10);
+  dope::Grid<std::size_t, 2> grid2D(size, std::size_t(0));
   for (std::size_t i = 0; i < size[0]; ++i) {
     DopeVector<std::size_t, 1> grid_row = grid2D[i];
     for (std::size_t j = 0; j < size[1]; ++j) grid_row[j] = i * size[1] + j;
@@ -35,7 +34,7 @@ int main(int argc, char *argv[]) {
   std::chrono::steady_clock::time_point start =
       std::chrono::steady_clock::now();
 
-  Grid<std::size_t, 2> grid2_naive_transposition(size);
+  dope::Grid<std::size_t, 2> grid2_naive_transposition(size);
   for (std::size_t i = 0; i < size[0]; ++i)
     for (std::size_t j = 0; j < size[1]; ++j)
       grid2_naive_transposition[j][i] = grid2D[i][j];
@@ -53,7 +52,7 @@ int main(int argc, char *argv[]) {
     std::cout << '\n';
   }
 
-  Index2 order = {1, 0};
+  dope::Index2 order = {1, 0};
 
   start = std::chrono::steady_clock::now();
 
@@ -72,7 +71,7 @@ int main(int argc, char *argv[]) {
     std::cout << '\n';
   }
 
-  Grid<std::size_t, 10> big_grid(Index<10>(10));
+  dope::Grid<std::size_t, 10> big_grid(Index<10>(10));
   Index<10> new_order(1, 0, 2, 5, 4, 7, 3, 6, 9, 8);
 
   start = std::chrono::steady_clock::now();
@@ -121,9 +120,9 @@ int main(int argc, char *argv[]) {
             << std::endl;
 
   std::cout << "Linear iterator:\n";
-  //	Grid<std::size_t, 2>::const_iterator it = const_cast<const
-  //Grid<std::size_t, 2> &>(grid2D).begin();
-  Grid<std::size_t, 2>::const_iterator it = grid2D.cbegin();
+  // dope::Grid<std::size_t, 2>::const_iterator it = const_cast<const
+  // dope::Grid<std::size_t, 2> &>(grid2D).begin();
+  dope::Grid<std::size_t, 2>::const_iterator it = grid2D.cbegin();
   it += grid2D.sizeAt(1);
   std::cout << "First element of second row: " << *it++ << '\n';
   std::cout << "Other elements:\n";

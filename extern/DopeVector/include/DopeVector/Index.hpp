@@ -8,11 +8,12 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef Index_hpp
-#define Index_hpp
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_HPP_
 
-#include <DopeVector/internal/Expression.hpp>
 #include <array>
+
+#include "DopeVector/internal/Expression.hpp"
 
 namespace dope {
 
@@ -47,7 +48,7 @@ class Index : public std::array<SizeType, Dimension>,
   /**
    * @brief Default constructor.
    */
-  explicit Index() = default;
+  Index() = default;
 
   /**
    * @brief Copy constructor.
@@ -90,7 +91,7 @@ class Index : public std::array<SizeType, Dimension>,
    * @param e         The result of an Eigen expression.
    */
   template <class Derived>
-  inline Index(const Eigen::MatrixBase<Derived> &e);
+  inline explicit Index(const Eigen::MatrixBase<Derived> &e);
 #endif
 
   ////////////////////////////////////////////////////////////////////////
@@ -315,6 +316,6 @@ static inline Index<Dimension> to_indexFromOffset(
 
 }  // namespace dope
 
-#include <DopeVector/internal/inlines/Index.inl>
+#include "DopeVector/internal/inlines/Index.inl"
 
-#endif  // Index_hpp
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_HPP_

@@ -8,13 +8,15 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef EigenExpression_hpp
-#define EigenExpression_hpp
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EIGEN_SUPPORT_EIGENEXPRESSION_HPP_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EIGEN_SUPPORT_EIGENEXPRESSION_HPP_
 
 #ifdef DOPE_USE_EIGEN
 
-#include <DopeVector/internal/Expression.hpp>
-#include <Eigen/Core>
+#include <functional>
+
+#include "Eigen/Core"
+#include "DopeVector/internal/Expression.hpp"
 
 namespace dope {
 
@@ -132,8 +134,8 @@ operator%(const StaticArrayExpression<El, T, Dimension> &el,
 
 }  // namespace dope
 
-#include <DopeVector/internal/inlines/eigen_support/EigenExpression.inl>
+#include "DopeVector/internal/inlines/eigen_support/EigenExpression.inl"
 
-#endif
+#endif  // Eigen
 
-#endif
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EIGEN_SUPPORT_EIGENEXPRESSION_HPP_
