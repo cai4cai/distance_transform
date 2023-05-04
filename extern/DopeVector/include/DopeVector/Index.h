@@ -316,6 +316,6 @@ static inline Index<Dimension> to_indexFromOffset(
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/Index.inl"
+#include "DopeVector/internal/inlines/Index.hpp"
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_H_

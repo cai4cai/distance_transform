@@ -94,7 +94,7 @@ operator%(const StaticArrayExpression<El, T, Dimension> &el,
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/Expression.inl"
+#include "DopeVector/internal/inlines/Expression.hpp"
 
 #ifdef DOPE_USE_EIGEN
 #include "DopeVector/internal/eigen_support/EigenExpression.h"

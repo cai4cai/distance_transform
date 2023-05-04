@@ -175,6 +175,6 @@ class Iterator {
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/Iterator.inl"
+#include "DopeVector/internal/inlines/Iterator.hpp"
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_ITERATOR_H_

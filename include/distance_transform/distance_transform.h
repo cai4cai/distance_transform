@@ -223,6 +223,6 @@ class DistanceTransform {
 
 }  // namespace dt
 
-#include "distance_transform/inlines/distance_transform.inl"
+#include "distance_transform/inlines/distance_transform.hpp"
 
 #endif  // INCLUDE_DISTANCE_TRANSFORM_DISTANCE_TRANSFORM_H_

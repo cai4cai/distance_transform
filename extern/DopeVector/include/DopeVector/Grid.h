@@ -406,6 +406,6 @@ using StandardGrid3D = Grid<T, static_cast<SizeType>(3)>;
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/Grid.inl"
+#include "DopeVector/internal/inlines/Grid.hpp"
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_GRID_H_

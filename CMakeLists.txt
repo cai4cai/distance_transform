@@ -23,7 +23,7 @@ endif()
 set(hdr_dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(hdr_inline_files
-	${hdr_dir}/distance_transform/inlines/distance_transform.inl
+	${hdr_dir}/distance_transform/inlines/distance_transform.hpp
 )
 set_source_files_properties(${hdr_inline_files} PROPERTIES XCODE_EXPLICIT_FILE_TYPE "sourcecode.cpp.h")
 source_group("distance_transform\\inlines" FILES ${hdr_inline_files})

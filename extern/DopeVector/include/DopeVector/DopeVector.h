@@ -941,6 +941,6 @@ using DopeVector3D = DopeVector<T, 3>;
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/DopeVector.inl"
+#include "DopeVector/internal/inlines/DopeVector.hpp"
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_DOPEVECTOR_H_

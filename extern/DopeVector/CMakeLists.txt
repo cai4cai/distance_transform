@@ -21,12 +21,12 @@ set(hdr_internal_files
 source_group("DopeVector\\internal" FILES ${hdr_internal_files})
 
 set(hdr_internal_inline_files
-	${hdr_dir}/DopeVector/internal/inlines/Index.inl
-	${hdr_dir}/DopeVector/internal/inlines/Expression.inl
-	${hdr_dir}/DopeVector/internal/inlines/eigen_support/EigenExpression.inl
-	${hdr_dir}/DopeVector/internal/inlines/Iterator.inl
-	${hdr_dir}/DopeVector/internal/inlines/DopeVector.inl
-	${hdr_dir}/DopeVector/internal/inlines/Grid.inl
+	${hdr_dir}/DopeVector/internal/inlines/Index.hpp
+	${hdr_dir}/DopeVector/internal/inlines/Expression.hpp
+	${hdr_dir}/DopeVector/internal/inlines/eigen_support/EigenExpression.hpp
+	${hdr_dir}/DopeVector/internal/inlines/Iterator.hpp
+	${hdr_dir}/DopeVector/internal/inlines/DopeVector.hpp
+	${hdr_dir}/DopeVector/internal/inlines/Grid.hpp
 )
 set_source_files_properties(${hdr_internal_inline_files} PROPERTIES XCODE_EXPLICIT_FILE_TYPE "sourcecode.cpp.h")
 source_group("DopeVector\\internal\\inlines" FILES ${hdr_internal_inline_files})
