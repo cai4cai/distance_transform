@@ -45,3 +45,6 @@ target_link_libraries(${PROJECT_NAME} INTERFACE ${toLink})
 if(ATTACH_SOURCES)
 	target_sources(${PROJECT_NAME} INTERFACE ${all_hdr})
 endif()
+
+
+add_subdirectory(example)
