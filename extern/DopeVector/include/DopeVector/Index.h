@@ -8,12 +8,12 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_HPP_
-#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_HPP_
+#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_H_
+#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_H_
 
 #include <array>
 
-#include "DopeVector/internal/Expression.hpp"
+#include "DopeVector/internal/Expression.h"
 
 namespace dope {
 
@@ -318,4 +318,4 @@ static inline Index<Dimension> to_indexFromOffset(
 
 #include "DopeVector/internal/inlines/Index.inl"
 
-#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_HPP_
+#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_H_

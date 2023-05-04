@@ -8,9 +8,10 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#include <DopeVector/DopeVector.hpp>
 #include <array>
 #include <memory>
+
+#include "DopeVector/DopeVector.h"
 
 namespace dope {
 

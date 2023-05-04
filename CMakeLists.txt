@@ -29,7 +29,7 @@ set_source_files_properties(${hdr_inline_files} PROPERTIES XCODE_EXPLICIT_FILE_T
 source_group("distance_transform\\inlines" FILES ${hdr_inline_files})
 
 set(hdr_main_files
-	${hdr_dir}/distance_transform/distance_transform.hpp
+	${hdr_dir}/distance_transform/distance_transform.h
 )
 source_group("distance_transform" FILES ${hdr_main_files})
 

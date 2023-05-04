@@ -10,12 +10,12 @@
 // Author: Giorgio Marcias
 // email: marcias.giorgio@gmail.com
 
-#ifndef INCLUDE_DISTANCE_TRANSFORM_DISTANCE_TRANSFORM_HPP_
-#define INCLUDE_DISTANCE_TRANSFORM_DISTANCE_TRANSFORM_HPP_
+#ifndef INCLUDE_DISTANCE_TRANSFORM_DISTANCE_TRANSFORM_H_
+#define INCLUDE_DISTANCE_TRANSFORM_DISTANCE_TRANSFORM_H_
 
 #include <thread>
 
-#include "DopeVector/Grid.hpp"
+#include "DopeVector/Grid.h"
 
 namespace dt {
 
@@ -225,4 +225,4 @@ class DistanceTransform {
 
 #include "distance_transform/inlines/distance_transform.inl"
 
-#endif  // INCLUDE_DISTANCE_TRANSFORM_DISTANCE_TRANSFORM_HPP_
+#endif  // INCLUDE_DISTANCE_TRANSFORM_DISTANCE_TRANSFORM_H_

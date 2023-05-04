@@ -11,7 +11,8 @@
 // email: marcias.giorgio@gmail.com
 
 #include <cmath>
-#include <distance_transform/distance_transform.hpp>
+
+#include "distance_transform/distance_transform.h"
 
 namespace dt {
 

@@ -10,7 +10,7 @@
 
 #ifdef DOPE_USE_EIGEN
 
-#include <DopeVector/internal/eigen_support/EigenExpression.hpp>
+#include "DopeVector/internal/eigen_support/EigenExpression.h"
 
 namespace dope {
 

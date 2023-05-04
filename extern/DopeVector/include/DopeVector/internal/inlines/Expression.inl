@@ -8,7 +8,7 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#include <DopeVector/internal/Expression.hpp>
+#include "DopeVector/internal/Expression.h"
 
 namespace dope {
 

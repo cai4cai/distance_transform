@@ -36,9 +36,9 @@ So `Grid` helps to this.
 
 The library is header-only, just include the path `<path-to-where-downloaded-to>/include` in your project and in your code add
 
-    #include <DopeVector/DopeVector.hpp>
+    #include <DopeVector/DopeVector.h>
     //or directly:
-    //#include <DopeVector/Grid.hpp>
+    //#include <DopeVector/Grid.h>
 
 If you use [CMAKE](https://cmake.org), you can import this project using `add_subdirectory`:
 

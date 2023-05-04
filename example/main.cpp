@@ -15,7 +15,7 @@
 #include <iostream>
 #include <vector>
 
-#include "distance_transform/distance_transform.hpp"
+#include "distance_transform/distance_transform.h"
 
 int main(int argc, char *argv[]) {
   dope::Index2 size({15, 15});

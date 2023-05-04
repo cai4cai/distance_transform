@@ -8,8 +8,9 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#include <DopeVector/internal/Iterator.hpp>
 #include <limits>
+
+#include "DopeVector/internal/Iterator.h"
 
 namespace dope {
 

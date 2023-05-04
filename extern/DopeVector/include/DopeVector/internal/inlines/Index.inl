@@ -8,9 +8,10 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#include <DopeVector/Index.hpp>
 #include <algorithm>
 #include <stdexcept>
+
+#include "DopeVector/Index.h"
 
 namespace dope {
 

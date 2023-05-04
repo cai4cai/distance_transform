@@ -8,7 +8,7 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#include <DopeVector/Grid.hpp>
+#include "DopeVector/Grid.h"
 
 namespace dope {
 

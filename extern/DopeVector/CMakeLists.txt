@@ -13,10 +13,10 @@ option(ATTACH_SOURCES "When generating an IDE project, add DopeVector header fil
 set(hdr_dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(hdr_internal_files
-	${hdr_dir}/DopeVector/internal/Common.hpp
-	${hdr_dir}/DopeVector/internal/Expression.hpp
-	${hdr_dir}/DopeVector/internal/eigen_support/EigenExpression.hpp
-	${hdr_dir}/DopeVector/internal/Iterator.hpp
+	${hdr_dir}/DopeVector/internal/Common.h
+	${hdr_dir}/DopeVector/internal/Expression.h
+	${hdr_dir}/DopeVector/internal/eigen_support/EigenExpression.h
+	${hdr_dir}/DopeVector/internal/Iterator.h
 )
 source_group("DopeVector\\internal" FILES ${hdr_internal_files})
 
@@ -32,9 +32,9 @@ set_source_files_properties(${hdr_internal_inline_files} PROPERTIES XCODE_EXPLIC
 source_group("DopeVector\\internal\\inlines" FILES ${hdr_internal_inline_files})
 
 set(hdr_main_files
-	${hdr_dir}/DopeVector/DopeVector.hpp
-	${hdr_dir}/DopeVector/Grid.hpp
-	${hdr_dir}/DopeVector/Index.hpp
+	${hdr_dir}/DopeVector/DopeVector.h
+	${hdr_dir}/DopeVector/Grid.h
+	${hdr_dir}/DopeVector/Index.h
 )
 source_group("DopeVector" FILES ${hdr_main_files})
 
