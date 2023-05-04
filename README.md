@@ -3,11 +3,11 @@ C++ Distance Transform
 
 This software is a C++11 implementation of the algorithm described in:
 
->** * Distance Transforms of Sampled Functions * **  
->Pedro F. Felzenszwalb, Daniel P. Huttenlocher  
+>** * Distance Transforms of Sampled Functions * **
+>Pedro F. Felzenszwalb, Daniel P. Huttenlocher
 >Theory of Computing, Vol. 8, No. 19, September 2012
 
-See their [project site](http://cs.brown.edu/~pff/dt/).  
+See their [project site](http://cs.brown.edu/~pff/dt/).
 
 The paper describes a linear-time algorithm for solving a class of minimization
 problems involving a cost function with both local and spatial terms.
