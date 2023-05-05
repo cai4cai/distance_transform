@@ -28,5 +28,29 @@ endif()
 add_library(distance_transform INTERFACE)
 target_include_directories(distance_transform INTERFACE "include")
 
+option(DOPE_USE_EIGEN "Build DopeVector with Index<Dimension> as Eigen Matrix (if present) or not." OFF)
+if(DOPE_USE_EIGEN)
+  message(STATUS "Using Eigen in dope_vector")
+
+  include(FetchContent)
+  FetchContent_Declare(
+    Eigen
+    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+    GIT_TAG 3.4
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
+    SYSTEM
+    )
+  set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+  set(EIGEN_BUILD_DOC OFF)
+  set(EIGEN_BUILD_PKGCONFIG OFF)
+  FetchContent_MakeAvailable(Eigen)
+
+  target_compile_definitions(distance_transform INTERFACE DOPE_USE_EIGEN)
+  target_link_libraries(distance_transform INTERFACE Eigen3::Eigen)
+endif()
+
+
+
 enable_testing()
 add_subdirectory(example)

@@ -15,7 +15,7 @@
 
 #include <functional>
 
-#include "DopeVector/internal/eigen_support/EigenExpression.h"
+#include "dope_vector/internal/eigen_support/EigenExpression.h"
 
 namespace dope {
 

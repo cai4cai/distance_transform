@@ -16,7 +16,7 @@
 #include <functional>
 
 #include "Eigen/Core"
-#include "DopeVector/internal/Expression.h"
+#include "dope_vector/internal/Expression.h"
 
 namespace dope {
 
@@ -134,7 +134,7 @@ operator%(const StaticArrayExpression<El, T, Dimension> &el,
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/eigen_support/EigenExpression.hpp"
+#include "dope_vector/internal/inlines/eigen_support/EigenExpression.hpp"
 
 #endif  // Eigen
 
