@@ -17,7 +17,7 @@
 
 #include "distance_transform/distance_transform.h"
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
+int runexample() {
   dope::Index2 size({15, 15});
   dope::Grid<float, 2> f(size);
   dope::Grid<dope::SizeType, 2> indices(size);
@@ -269,5 +269,19 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
 
   std::cout << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
+}
+
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
+  try {
+    return runexample();
+  } catch (const std::exception& e) {
+    // standard exceptions
+    std::cout << "Caught std::exception in main: " << e.what() << std::endl;
+    return EXIT_FAILURE;
+  } catch (...) {
+    // everything else
+    std::cout << "Caught unknown exception in main" << std::endl;
+    return EXIT_FAILURE;
+  }
 }

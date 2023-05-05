@@ -19,12 +19,14 @@ else()
   set(CMAKE_CXX_CLANG_TIDY 
     ${CLANG_TIDY_EXE};
     -header-filter=.*;
-    -checks=-*,portability-*,bugprone-*,readability-,clang-analyzer-*,performance-*,cppcoreguidelines-*;
+    -checks=-*,portability-*,bugprone-*,-bugprone-easily-swappable-parameters,readability-,clang-analyzer-*,performance-*;
     )
+    # ,cppcoreguidelines-*,-cppcoreguidelines-avoid-magic-numbers
   message(STATUS "Found clang-tidy: ${CLANG_TIDY_EXE}.")
 endif()
 
 add_library(distance_transform INTERFACE)
 target_include_directories(distance_transform INTERFACE "include")
 
+enable_testing()
 add_subdirectory(example)

@@ -78,7 +78,7 @@ class DopeVector {
   /**
    *    @brief Move constructor.
    */
-  DopeVector(DopeVector &&other) = default;
+  DopeVector(DopeVector &&other) noexcept = default;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -105,7 +105,7 @@ class DopeVector {
   /**
    *    @brief Move assignment operator.
    */
-  DopeVector &operator=(DopeVector &&other) = default;
+  DopeVector &operator=(DopeVector &&other) noexcept = default;
 
   /**
    *    @brief Resets this DopeVector to wrap another array in memory.
@@ -543,7 +543,18 @@ class DopeVector<T, 1> {
   /**
    *    @brief Move constructor.
    */
-  DopeVector(DopeVector &&other) = default;
+  DopeVector(DopeVector &&other) noexcept = default;
+
+  ////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////////
+  // DESTRUCTOR
+  ////////////////////////////////////////////////////////////////////////
+
+  /**
+   *    @brief Default destructor.
+   */
+  virtual inline ~DopeVector() = default;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -607,7 +618,7 @@ class DopeVector<T, 1> {
   /**
    *    @brief Move assignment operator.
    */
-  DopeVector &operator=(DopeVector &&other) = default;
+  DopeVector &operator=(DopeVector &&other) noexcept = default;
 
   /**
    *    @brief Copies all single elements from o to this matrix.

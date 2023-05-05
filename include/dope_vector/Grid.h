@@ -103,7 +103,7 @@ class Grid : public DopeVector<T, Dimension> {
   /**
    *    @brief Move constructor.
    */
-  inline explicit Grid(Grid &&) = default;
+  inline explicit Grid(Grid &&) noexcept = default;
 
   ////////////////////////////////////////////////////////////////////////
 
@@ -360,7 +360,7 @@ class Grid : public DopeVector<T, Dimension> {
   /**
    *    @brief Move assignment operator.
    */
-  inline Grid &operator=(Grid &&o) = default;
+  inline Grid &operator=(Grid &&o) noexcept = default;
 
 #ifdef DOPE_USE_RTTI
   /**

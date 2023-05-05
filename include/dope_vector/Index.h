@@ -58,7 +58,7 @@ class Index : public std::array<SizeType, Dimension>,
   /**
    * @brief Move constructor.
    */
-  explicit Index(Index &&) = default;
+  explicit Index(Index &&) noexcept = default;
 
   /**
    * @brief Initializer constructor.
@@ -108,7 +108,7 @@ class Index : public std::array<SizeType, Dimension>,
   /**
    * @brief Move assignment operator.
    */
-  Index &operator=(Index &&) = default;
+  Index &operator=(Index &&) noexcept = default;
 
   /**
    * @brief List assignment operator.

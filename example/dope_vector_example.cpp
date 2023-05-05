@@ -16,7 +16,7 @@
 #include "dope_vector/DopeVector.h"
 #include "dope_vector/Grid.h"
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
+int runexample() {
   dope::Index2 size(10, 10);
   dope::Grid<std::size_t, 2> grid2D(size, std::size_t(0));
   for (std::size_t i = 0; i < size[0]; ++i) {
@@ -134,5 +134,19 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   while (it != lower_right_window.cend()) std::cout << *it++ << ' ';
   std::cout << std::endl;
 
-  return 0;
+  return EXIT_SUCCESS;
+}
+
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
+  try {
+    return runexample();
+  } catch (const std::exception& e) {
+    // standard exceptions
+    std::cout << "Caught std::exception in main: " << e.what() << std::endl;
+    return EXIT_FAILURE;
+  } catch (...) {
+    // everything else
+    std::cout << "Caught unknown exception in main" << std::endl;
+    return EXIT_FAILURE;
+  }
 }

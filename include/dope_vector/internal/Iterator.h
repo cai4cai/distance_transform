@@ -90,7 +90,7 @@ class Iterator {
   /**
    * @brief Move constructor.
    */
-  inline Iterator(Iterator &&other) = default;
+  inline Iterator(Iterator &&other) noexcept = default;
 
   ////////////////////////////////////////////////////////////////////
 
@@ -111,7 +111,7 @@ class Iterator {
   ////////////////////////////////////////////////////////////////////
 
   inline self_type &operator=(const self_type &o) = default;
-  inline self_type &operator=(self_type &&o) = default;
+  inline self_type &operator=(self_type &&o) noexcept = default;
 
   ////////////////////////////////////////////////////////////////////
 

@@ -3,3 +3,7 @@ target_link_libraries(dope_vector_example distance_transform)
 
 add_executable(distance_transform_example distance_transform_example.cpp)
 target_link_libraries(distance_transform_example distance_transform)
+
+# Add to ctest
+add_test(NAME dope_vector_example COMMAND dope_vector_example)
+add_test(NAME distance_transform_example COMMAND distance_transform_example)
