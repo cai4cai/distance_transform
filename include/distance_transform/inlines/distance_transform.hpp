@@ -291,7 +291,7 @@ inline void DistanceTransform::distanceL2(const dope::DopeVector<Scalar, 1> &f,
       // compute horizontal position of intersection between the parabola from q
       // and the current lowest parabola
       s = ((f[q] + q * q) - static_cast<double>(f[v[k]] + v[k] * v[k])) /
-	( static_cast<double>(2 * q) - static_cast<double>(2 * v[k]));
+          (static_cast<double>(2 * q) - static_cast<double>(2 * v[k]));
     } while (s <= z[k]);
     ++k;
     v[k] = q;
@@ -379,7 +379,7 @@ inline void DistanceTransform::distanceL2(
       // compute horizontal position of intersection between the parabola from q
       // and the current lowest parabola
       s = ((f[q] + q * q) - static_cast<double>(f[v[k]] + v[k] * v[k])) /
-	( static_cast<double>(2 * q) - static_cast<double>(2 * v[k]));
+          (static_cast<double>(2 * q) - static_cast<double>(2 * v[k]));
     } while (s <= z[k]);
     ++k;
     v[k] = q;
