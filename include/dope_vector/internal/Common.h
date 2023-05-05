@@ -8,8 +8,8 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_COMMON_H_
-#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_COMMON_H_
+#ifndef INCLUDE_DOPE_VECTOR_INTERNAL_COMMON_H_
+#define INCLUDE_DOPE_VECTOR_INTERNAL_COMMON_H_
 
 #include <cstdlib>
 
@@ -28,4 +28,4 @@ using SizeType = std::make_unsigned<DOPE_SIZETYPE>::type;
 
 }  // namespace dope
 
-#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_COMMON_H_
+#endif  // INCLUDE_DOPE_VECTOR_INTERNAL_COMMON_H_

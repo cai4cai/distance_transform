@@ -8,8 +8,8 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_H_
-#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_H_
+#ifndef INCLUDE_DOPE_VECTOR_INDEX_H_
+#define INCLUDE_DOPE_VECTOR_INDEX_H_
 
 #include <array>
 
@@ -318,4 +318,4 @@ static inline Index<Dimension> to_indexFromOffset(
 
 #include "dope_vector/internal/inlines/Index.hpp"
 
-#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_H_
+#endif  // INCLUDE_DOPE_VECTOR_INDEX_H_

@@ -16,7 +16,7 @@
 #include "dope_vector/DopeVector.h"
 #include "dope_vector/Grid.h"
 
-int main(int argc, char *argv[]) {
+int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   dope::Index2 size(10, 10);
   dope::Grid<std::size_t, 2> grid2D(size, std::size_t(0));
   for (std::size_t i = 0; i < size[0]; ++i) {

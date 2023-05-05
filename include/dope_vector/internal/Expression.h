@@ -8,8 +8,8 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EXPRESSION_H_
-#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EXPRESSION_H_
+#ifndef INCLUDE_DOPE_VECTOR_INTERNAL_EXPRESSION_H_
+#define INCLUDE_DOPE_VECTOR_INTERNAL_EXPRESSION_H_
 
 #include <array>
 #include <functional>
@@ -100,4 +100,4 @@ operator%(const StaticArrayExpression<El, T, Dimension> &el,
 #include "dope_vector/internal/eigen_support/EigenExpression.h"
 #endif
 
-#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EXPRESSION_H_
+#endif  // INCLUDE_DOPE_VECTOR_INTERNAL_EXPRESSION_H_

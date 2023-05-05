@@ -8,8 +8,8 @@
 // Author: Maurizio Kovacic
 // email: maurizio.kovacic@gmail.com
 
-#ifndef EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_GRID_HPP_
-#define EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_GRID_HPP_
+#ifndef INCLUDE_DOPE_VECTOR_INTERNAL_INLINES_GRID_HPP_
+#define INCLUDE_DOPE_VECTOR_INTERNAL_INLINES_GRID_HPP_
 
 #include <algorithm>
 #include <utility>
@@ -381,4 +381,4 @@ inline void Grid<T, Dimension, Allocator>::swap(Grid &o) {
 
 }  // namespace dope
 
-#endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_INLINES_GRID_HPP_
+#endif  // INCLUDE_DOPE_VECTOR_INTERNAL_INLINES_GRID_HPP_

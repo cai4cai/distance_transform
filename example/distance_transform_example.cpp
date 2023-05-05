@@ -17,7 +17,7 @@
 
 #include "distance_transform/distance_transform.h"
 
-int main(int argc, char *argv[]) {
+int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
   dope::Index2 size({15, 15});
   dope::Grid<float, 2> f(size);
   dope::Grid<dope::SizeType, 2> indices(size);
