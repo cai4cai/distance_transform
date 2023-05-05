@@ -15,7 +15,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "DopeVector/internal/Iterator.h"
+#include "dope_vector/internal/Iterator.h"
 
 namespace dope {
 
@@ -941,6 +941,6 @@ using DopeVector3D = DopeVector<T, 3>;
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/DopeVector.hpp"
+#include "dope_vector/internal/inlines/DopeVector.hpp"
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_DOPEVECTOR_H_

@@ -15,7 +15,7 @@
 #include <stdexcept>
 #include <utility>
 
-#include "DopeVector/Index.h"
+#include "dope_vector/Index.h"
 
 namespace dope {
 

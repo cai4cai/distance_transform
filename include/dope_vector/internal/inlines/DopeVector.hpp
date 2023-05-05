@@ -14,7 +14,7 @@
 #include <array>
 #include <memory>
 
-#include "DopeVector/DopeVector.h"
+#include "dope_vector/DopeVector.h"
 
 namespace dope {
 

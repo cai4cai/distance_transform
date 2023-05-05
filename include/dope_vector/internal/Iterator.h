@@ -15,7 +15,7 @@
 #include <iterator>
 #include <type_traits>
 
-#include "DopeVector/Index.h"
+#include "dope_vector/Index.h"
 
 namespace dope {
 
@@ -175,6 +175,6 @@ class Iterator {
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/Iterator.hpp"
+#include "dope_vector/internal/inlines/Iterator.hpp"
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_ITERATOR_H_

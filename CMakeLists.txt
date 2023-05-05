@@ -1,50 +1,30 @@
-cmake_minimum_required(VERSION 3.3)
-
+cmake_minimum_required(VERSION 3.25)
 project(distance_transform)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-
-# option(WITH_RTTI "Build DopeVector using RTTI or not" OFF)
-# option(WITH_EIGEN "Build DopeVector with Index<Dimension> as Eigen Matrix (if present) or not." OFF)
-# option(ATTACH_SOURCES "When generating an IDE project, add DopeVector header files to project sources." OFF)
-
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/extern/DopeVector ${CMAKE_CURRENT_BINARY_DIR}/lib_dope_vector)
-include(${CMAKE_CURRENT_SOURCE_DIR}/extern/DopeVector/sources_properties.cmake)
-
-
-set(toLink DopeVector)
-if(CMAKE_COMPILER_IS_GNUCXX)
-	find_package(Threads REQUIRED)
-	list(APPEND toLink Threads::Threads)
+# Warnings compiler flags
+if(MSVC)
+  add_compile_options(/W4)
+else()
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-
-
-set(hdr_dir ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-set(hdr_inline_files
-	${hdr_dir}/distance_transform/inlines/distance_transform.hpp
-)
-set_source_files_properties(${hdr_inline_files} PROPERTIES XCODE_EXPLICIT_FILE_TYPE "sourcecode.cpp.h")
-source_group("distance_transform\\inlines" FILES ${hdr_inline_files})
-
-set(hdr_main_files
-	${hdr_dir}/distance_transform/distance_transform.h
-)
-source_group("distance_transform" FILES ${hdr_main_files})
-
-set(all_hdr ${hdr_inline_files} ${hdr_main_files})
-
-
-
-add_library(${PROJECT_NAME} INTERFACE)
-
-target_include_directories(${PROJECT_NAME} INTERFACE ${hdr_dir})
-target_link_libraries(${PROJECT_NAME} INTERFACE ${toLink})
-
-if(ATTACH_SOURCES)
-	target_sources(${PROJECT_NAME} INTERFACE ${all_hdr})
+# Optionally enable clang-tidy
+find_program(CLANG_TIDY_EXE NAMES clang-tidy PATHS /opt/homebrew/opt/llvm/bin/)
+if(NOT CLANG_TIDY_EXE)
+  message(STATUS "clang-tidy not found. Skipping corresponding checks.")
+else()
+  set(CMAKE_CXX_CLANG_TIDY2 
+    ${CLANG_TIDY_EXE};
+    -header-filter=.*;
+    -checks=-*,portability-*,bugprone-*,readability-,clang-analyzer-*,performance-*,cppcoreguidelines-*;
+    )
+  message(STATUS "Found clang-tidy: ${CLANG_TIDY_EXE}.")
 endif()
 
+add_library(distance_transform INTERFACE)
+target_include_directories(distance_transform INTERFACE "include")
 
 add_subdirectory(example)

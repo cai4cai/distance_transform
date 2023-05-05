@@ -15,7 +15,7 @@
 
 #include <thread>
 
-#include "DopeVector/Grid.h"
+#include "dope_vector/Grid.h"
 
 namespace dt {
 

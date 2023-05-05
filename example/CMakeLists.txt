@@ -1,6 +1,5 @@
-set(src
-	${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-)
-add_executable(distance_transform_example ${src})
+add_executable(dope_vector_example dope_vector_example.cpp)
+target_link_libraries(dope_vector_example distance_transform)
 
+add_executable(distance_transform_example distance_transform_example.cpp)
 target_link_libraries(distance_transform_example distance_transform)

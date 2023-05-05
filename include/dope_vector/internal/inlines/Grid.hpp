@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <utility>
 
-#include "DopeVector/Grid.h"
+#include "dope_vector/Grid.h"
 
 namespace dope {
 

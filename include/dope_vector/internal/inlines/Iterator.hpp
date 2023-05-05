@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <limits>
 
-#include "DopeVector/internal/Iterator.h"
+#include "dope_vector/internal/Iterator.h"
 
 namespace dope {
 

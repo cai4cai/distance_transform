@@ -13,8 +13,8 @@
 #include <iostream>
 #include <vector>
 
-#include "DopeVector/DopeVector.h"
-#include "DopeVector/Grid.h"
+#include "dope_vector/DopeVector.h"
+#include "dope_vector/Grid.h"
 
 int main(int argc, char *argv[]) {
   dope::Index2 size(10, 10);

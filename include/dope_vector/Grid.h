@@ -15,7 +15,7 @@
 #include <utility>
 #include <vector>
 
-#include "DopeVector/DopeVector.h"
+#include "dope_vector/DopeVector.h"
 
 namespace dope {
 
@@ -406,6 +406,6 @@ using StandardGrid3D = Grid<T, static_cast<SizeType>(3)>;
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/Grid.hpp"
+#include "dope_vector/internal/inlines/Grid.hpp"
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_GRID_H_

@@ -14,7 +14,7 @@
 #include <array>
 #include <functional>
 
-#include "DopeVector/internal/Common.h"
+#include "dope_vector/internal/Common.h"
 
 namespace dope {
 
@@ -94,10 +94,10 @@ operator%(const StaticArrayExpression<El, T, Dimension> &el,
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/Expression.hpp"
+#include "dope_vector/internal/inlines/Expression.hpp"
 
 #ifdef DOPE_USE_EIGEN
-#include "DopeVector/internal/eigen_support/EigenExpression.h"
+#include "dope_vector/internal/eigen_support/EigenExpression.h"
 #endif
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INTERNAL_EXPRESSION_H_

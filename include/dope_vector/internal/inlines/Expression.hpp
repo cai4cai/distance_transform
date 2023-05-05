@@ -13,7 +13,7 @@
 
 #include <functional>
 
-#include "DopeVector/internal/Expression.h"
+#include "dope_vector/internal/Expression.h"
 
 namespace dope {
 

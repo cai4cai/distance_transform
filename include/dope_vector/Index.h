@@ -13,7 +13,7 @@
 
 #include <array>
 
-#include "DopeVector/internal/Expression.h"
+#include "dope_vector/internal/Expression.h"
 
 namespace dope {
 
@@ -316,6 +316,6 @@ static inline Index<Dimension> to_indexFromOffset(
 
 }  // namespace dope
 
-#include "DopeVector/internal/inlines/Index.hpp"
+#include "dope_vector/internal/inlines/Index.hpp"
 
 #endif  // EXTERN_DOPEVECTOR_INCLUDE_DOPEVECTOR_INDEX_H_
