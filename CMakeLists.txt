@@ -54,3 +54,4 @@ endif()
 
 enable_testing()
 add_subdirectory(example)
+add_subdirectory(bindings/python)

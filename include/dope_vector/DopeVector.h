@@ -478,6 +478,7 @@ class DopeVector<T, 1> {
 
   typedef internal::Iterator<T, 1, false> iterator;
   typedef internal::Iterator<T, 1, true> const_iterator;
+  typedef Index1 IndexD;
 
   ////////////////////////////////////////////////////////////////////////
 
