@@ -16,7 +16,7 @@ namespace py = pybind11;
 template <typename T, int N>
 py::array_t<T> DistanceTransformImpl(
     py::array_t<T, py::array::c_style | py::array::forcecast> maskarray,
-    bool computeSquareDistance) {
+    bool computeSquareDistance, const std::vector<T>& alphas) {
   // Get input shape
   typename dope::DopeVector<T, N>::IndexD masksize, pymasksize;
   std::copy_n(maskarray.shape(), N, pymasksize.begin());
@@ -31,7 +31,7 @@ py::array_t<T> DistanceTransformImpl(
   dope::Grid<T, N> dopefield(masksize);
 
   dt::DistanceTransform::distanceTransformL2(dopemask, dopefield,
-                                             computeSquareDistance);
+                                             computeSquareDistance, alphas);
 
   return py::array_t<T>(pymasksize, dopefield.data());
 }
@@ -39,27 +39,47 @@ py::array_t<T> DistanceTransformImpl(
 template <typename T>
 py::array_t<T> DistanceTransform(
     py::array_t<T, py::array::c_style | py::array::forcecast> maskarray,
-    bool computeSquareDistance = false) {
+    bool computeSquareDistance = false,
+    std::optional<py::array_t<T, py::array::c_style | py::array::forcecast> >
+        optalphas = py::none()) {
   // std::cout<<"Got input with dtype="<<maskarray.dtype()<<",
   // ndim="<<maskarray.ndim()<<std::endl;
+
+  std::vector<T> alphas(maskarray.ndim());
+  if (optalphas.has_value()) {
+    // Essentially doing alphas = optalphas.value();
+    if (optalphas.value().size() != maskarray.ndim()) {
+      throw std::out_of_range("Alpha vector size is not equal to dimension.");
+    }
+    std::copy_n(optalphas.value().data(), maskarray.ndim(), alphas.begin());
+  } else {
+    alphas = std::vector<T>(maskarray.ndim(), 1.0);
+  }
+
   switch (maskarray.ndim()) {
     case 1: {
-      return DistanceTransformImpl<T, 1>(maskarray, computeSquareDistance);
+      return DistanceTransformImpl<T, 1>(maskarray, computeSquareDistance,
+                                         alphas);
     }
     case 2: {
-      return DistanceTransformImpl<T, 2>(maskarray, computeSquareDistance);
+      return DistanceTransformImpl<T, 2>(maskarray, computeSquareDistance,
+                                         alphas);
     }
     case 3: {
-      return DistanceTransformImpl<T, 3>(maskarray, computeSquareDistance);
+      return DistanceTransformImpl<T, 3>(maskarray, computeSquareDistance,
+                                         alphas);
     }
     case 4: {
-      return DistanceTransformImpl<T, 4>(maskarray, computeSquareDistance);
+      return DistanceTransformImpl<T, 4>(maskarray, computeSquareDistance,
+                                         alphas);
     }
     case 5: {
-      return DistanceTransformImpl<T, 5>(maskarray, computeSquareDistance);
+      return DistanceTransformImpl<T, 5>(maskarray, computeSquareDistance,
+                                         alphas);
     }
     case 6: {
-      return DistanceTransformImpl<T, 6>(maskarray, computeSquareDistance);
+      return DistanceTransformImpl<T, 6>(maskarray, computeSquareDistance,
+                                         alphas);
     }
     default: {
       throw std::out_of_range("Dimension " + std::to_string(maskarray.ndim()) +
@@ -82,5 +102,6 @@ PYBIND11_MODULE(py_distance_transform, m) {
       Compute the distance transform
       https://github.com/tvercaut/distance_transform
   )pbdoc",
-        py::arg("maskarray"), py::arg("computeSquareDistance") = false);
+        py::arg("maskarray"), py::arg("computeSquareDistance") = false,
+        py::arg("alphas") = py::none());
 }

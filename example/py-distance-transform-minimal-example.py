@@ -4,11 +4,13 @@ import matplotlib.pyplot as plt
 
 
 def distance_transform_example():
-    mask = np.ones((51,100), dtype=float)*1e2
-    mask[10,23] = 0
-    mask[35,84] = 0
+    mask = np.ones((51, 100), dtype=float) * 1e3
+    mask[10, 23] = 0
+    mask[35, 84] = 0
 
-    distance_map = dt.distance_transform(mask,True)
+    spacings = [2, 1.0]
+
+    distance_map = dt.distance_transform(mask, False, spacings)
 
     print("Max dist:", np.max(distance_map[:]))
     print(distance_map.dtype)

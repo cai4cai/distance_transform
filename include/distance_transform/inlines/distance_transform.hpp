@@ -26,13 +26,20 @@ namespace dt {
 template <typename Scalar, dope::SizeType DIM>
 inline void DistanceTransform::distanceTransformL2(
     const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
-    const bool squared, const std::size_t nThreads) {
-  dope::Index<DIM> fSize, DSize;
-  fSize = f.allSizes();
-  DSize = D.allSizes();
-  if (DSize != fSize)
-    throw std::out_of_range("Matrixes do not have same size.");
+    const bool squared, std::vector<Scalar> alphas,
+    const std::size_t nThreads) {
+  // Check that the output array has the same size as the input array
+  const dope::Index<DIM> fSize = f.allSizes();
+  const dope::Index<DIM> DSize = D.allSizes();
+  if (DSize != fSize) {
+    throw std::out_of_range("Matrices do not have same size.");
+  }
+  const auto aSize = alphas.size();
+  if (aSize != DIM) {
+    throw std::out_of_range("Spacing vector size is not equal to dimension.");
+  }
 
+  // Allocate working buffers
   dope::Grid<Scalar, DIM> fCopy(fSize);
   fCopy.import(f);
   dope::Grid<Scalar, DIM> DCopy(DSize);
@@ -42,15 +49,23 @@ inline void DistanceTransform::distanceTransformL2(
 
   dope::Index<DIM> order;
 
+  // A two-dimensional distance transform can be computed by first computing
+  // one-dimensional distance transforms along each column of the grid, and then
+  // computing one-dimensional distance transforms along each row of the result.
+  // This argument extends to arbitrary dimensions, resulting in the composition
+  // of transforms along each dimension of the underlying grid.
   for (dope::SizeType d = static_cast<dope::SizeType>(0); d < DIM; ++d) {
-    // permute rotate
-    for (dope::SizeType o = static_cast<dope::SizeType>(0); o < DIM; ++o)
+    // Rather than changing the direction in which we scan though the array,
+    // we permute and rotate the array and then operate on a fixed direction
+    for (dope::SizeType o = static_cast<dope::SizeType>(0); o < DIM; ++o) {
       order[o] = (d + o) % DIM;
+    }
     dope::DopeVector<Scalar, DIM> tmpF_rotated = tmpF.permute(order);
     dope::DopeVector<Scalar, DIM> tmpD_rotated = tmpD.permute(order);
 
-    dope::Index<DIM> winStart = dope::Index<DIM>::Zero(), winSize;
-    tmpF_rotated.allSizes(winSize);
+    // Divide the image in various windows for multithreading purposes
+    dope::Index<DIM> winStart = dope::Index<DIM>::Zero();
+    dope::Index<DIM> winSize = tmpF_rotated.allSizes();
 
     dope::SizeType range = winSize[0];
     if (nThreads < range) {
@@ -74,51 +89,68 @@ inline void DistanceTransform::distanceTransformL2(
         winSize[0] = tmpF_rotated.sizeAt(0);
         threads.at(i) = std::thread(
             static_cast<void (*)(const dope::DopeVector<Scalar, DIM> &,
-                                 dope::DopeVector<Scalar, DIM> &)>(
-                &distanceL2Helper),
-            std::cref(tmpWindowsF.at(i)), std::ref(tmpWindowsD.at(i)));
+                                 dope::DopeVector<Scalar, DIM> &,
+                                 const Scalar)>(&distanceL2Helper),
+            std::cref(tmpWindowsF.at(i)), std::ref(tmpWindowsD.at(i)),
+            alphas[d]);
       }
-      for (std::size_t i = 0; i < nWindows; ++i) threads.at(i).join();
+      for (std::size_t i = 0; i < nWindows; ++i) {
+        threads.at(i).join();
+      }
     } else {
-      distanceL2Helper(tmpF_rotated, tmpD_rotated);
+      distanceL2Helper(tmpF_rotated, tmpD_rotated, alphas[d]);
     }
 
     std::swap(tmpD, tmpF);
   }
 
-  if (DIM % 2 == 0) DCopy = std::move(fCopy);
+  if (DIM % 2 == 0) {
+    DCopy = std::move(fCopy);
+  }
 
   D.import(DCopy);
 
-  if (!squared) element_wiseSquareRoot(D);
+  if (!squared) {
+    element_wiseSquareRoot(D);
+  }
 }
 
 template <typename Scalar>
 inline void DistanceTransform::distanceTransformL2(
     const dope::DopeVector<Scalar, 1> &f, dope::DopeVector<Scalar, 1> &D,
-    const bool squared, const std::size_t) {
-  dope::Index1 fSize, DSize;
-  fSize = f.allSizes();
-  DSize = D.allSizes();
-  if (DSize != fSize)
+    const bool squared, std::vector<Scalar> alphas, const std::size_t) {
+  const dope::Index1 fSize = f.allSizes();
+  const dope::Index1 DSize = D.allSizes();
+  if (DSize != fSize) {
     throw std::out_of_range("Matrixes do not have same size.");
+  }
+  const auto aSize = alphas.size();
+  if (aSize != 1) {
+    throw std::out_of_range("Spacing vector size is not equal to dimension.");
+  }
 
-  distanceL2(f, D);
+  distanceL2(f, D, alphas[0]);
 
-  if (!squared) element_wiseSquareRoot(D);
+  if (!squared) {
+    element_wiseSquareRoot(D);
+  }
 }
 
 template <typename Scalar, dope::SizeType DIM>
 inline void DistanceTransform::distanceTransformL2(
     const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
     dope::DopeVector<dope::SizeType, DIM> &I, const bool squared,
-    const std::size_t nThreads) {
-  dope::Index<DIM> fSize, DSize, ISize;
-  fSize = f.allSizes();
-  DSize = D.allSizes();
-  ISize = I.allSizes();
-  if (DSize != fSize || ISize != fSize)
+    std::vector<Scalar> alphas, const std::size_t nThreads) {
+  const dope::Index<DIM> fSize = f.allSizes();
+  const dope::Index<DIM> DSize = D.allSizes();
+  const dope::Index<DIM> ISize = I.allSizes();
+  if (DSize != fSize || ISize != fSize) {
     throw std::out_of_range("Matrixes do not have same size.");
+  }
+  const auto aSize = alphas.size();
+  if (aSize != DIM) {
+    throw std::out_of_range("Spacing vector size is not equal to dimension.");
+  }
 
   dope::Grid<Scalar, DIM> fCopy(fSize);
   fCopy.import(f);
@@ -135,8 +167,9 @@ inline void DistanceTransform::distanceTransformL2(
 
   for (dope::SizeType d = static_cast<dope::SizeType>(0); d < DIM; ++d) {
     // permute rotate
-    for (dope::SizeType o = static_cast<dope::SizeType>(0); o < DIM; ++o)
+    for (dope::SizeType o = static_cast<dope::SizeType>(0); o < DIM; ++o) {
       order[o] = (d + o) % DIM;
+    }
     dope::DopeVector<Scalar, DIM> tmpF_rotated = tmpF.permute(order);
     dope::DopeVector<Scalar, DIM> tmpD_rotated = tmpD.permute(order);
     dope::DopeVector<dope::SizeType, DIM> Ipre_rotated = Ipre.permute(order);
@@ -175,14 +208,18 @@ inline void DistanceTransform::distanceTransformL2(
             static_cast<void (*)(const dope::DopeVector<Scalar, DIM> &,
                                  dope::DopeVector<Scalar, DIM> &,
                                  const dope::DopeVector<dope::SizeType, DIM> &,
-                                 dope::DopeVector<dope::SizeType, DIM> &)>(
-                &distanceL2Helper),
+                                 dope::DopeVector<dope::SizeType, DIM> &,
+                                 const Scalar)>(&distanceL2Helper),
             std::cref(tmpWindowsF.at(i)), std::ref(tmpWindowsD.at(i)),
-            std::cref(tmpWindowsIPre.at(i)), std::ref(tmpWindowsIPost.at(i)));
+            std::cref(tmpWindowsIPre.at(i)), std::ref(tmpWindowsIPost.at(i)),
+            alphas[d]);
       }
-      for (std::size_t i = 0; i < nWindows; ++i) threads.at(i).join();
+      for (std::size_t i = 0; i < nWindows; ++i) {
+        threads.at(i).join();
+      }
     } else {
-      distanceL2Helper(tmpF_rotated, tmpD_rotated, Ipre_rotated, Ipost_rotated);
+      distanceL2Helper(tmpF_rotated, tmpD_rotated, Ipre_rotated, Ipost_rotated,
+                       alphas[d]);
     }
 
     std::swap(tmpD, tmpF);
@@ -197,24 +234,32 @@ inline void DistanceTransform::distanceTransformL2(
   D.import(DCopy);
   I.import(ICopyPost);
 
-  if (!squared) element_wiseSquareRoot(D);
+  if (!squared) {
+    element_wiseSquareRoot(D);
+  }
 }
 
 template <typename Scalar>
 inline void DistanceTransform::distanceTransformL2(
     const dope::DopeVector<Scalar, 1> &f, dope::DopeVector<Scalar, 1> &D,
     dope::DopeVector<dope::SizeType, 1> &I, const bool squared,
-    const std::size_t) {
-  dope::Index1 fSize, DSize, ISize;
-  fSize = f.allSizes();
-  DSize = D.allSizes();
-  ISize = I.allSizes();
-  if (DSize != fSize || ISize != fSize)
+    std::vector<Scalar> alphas, const std::size_t) {
+  const dope::Index1 fSize = f.allSizes();
+  const dope::Index1 DSize = D.allSizes();
+  const dope::Index1 ISize = I.allSizes();
+  if (DSize != fSize || ISize != fSize) {
     throw std::out_of_range("Matrixes do not have same size.");
+  }
+  const auto aSize = alphas.size();
+  if (aSize != 1) {
+    throw std::out_of_range("Spacing vector size is not equal to dimension.");
+  }
 
-  distanceL2(f, D, I);
+  distanceL2(f, D, I, Scalar(1.0));
 
-  if (!squared) element_wiseSquareRoot(D);
+  if (!squared) {
+    element_wiseSquareRoot(D);
+  }
 }
 
 template <dope::SizeType DIM>
@@ -230,13 +275,16 @@ inline void DistanceTransform::initializeIndices(
 
 inline void DistanceTransform::initializeIndices(
     dope::DopeVector<dope::SizeType, 1> &I) {
-  for (dope::SizeType q = static_cast<dope::SizeType>(0); q < I.sizeAt(0); ++q)
+  for (dope::SizeType q = static_cast<dope::SizeType>(0); q < I.sizeAt(0);
+       ++q) {
     I[q] = I.accumulatedOffset(q);
+  }
 }
 
 template <typename Scalar, dope::SizeType DIM>
 inline void DistanceTransform::distanceL2Helper(
-    const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D) {
+    const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
+    const Scalar alpha) {
   dope::DopeVector<Scalar, DIM - 1> f_dq;
   dope::DopeVector<Scalar, DIM - 1> D_dq;
 
@@ -244,29 +292,32 @@ inline void DistanceTransform::distanceL2Helper(
        ++q) {
     f.slice(0, q, f_dq);
     D.slice(0, q, D_dq);
-    distanceL2(f_dq, D_dq);
+    distanceL2(f_dq, D_dq, alpha);
   }
 }
 
 template <typename Scalar, dope::SizeType DIM>
 inline void DistanceTransform::distanceL2(
-    const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D) {
+    const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
+    const Scalar alpha) {
   dope::DopeVector<Scalar, DIM - 1> f_q, D_q;
   // compute distance at lower dimensions for each hyperplane
   for (dope::SizeType q = static_cast<dope::SizeType>(0); q < f.sizeAt(0);
        ++q) {
     f.at(q, f_q);
     D.at(q, D_q);
-    distanceL2(f_q, D_q);
+    distanceL2(f_q, D_q, alpha);
   }
 }
 
 template <typename Scalar>
 inline void DistanceTransform::distanceL2(const dope::DopeVector<Scalar, 1> &f,
-                                          dope::DopeVector<Scalar, 1> &D) {
+                                          dope::DopeVector<Scalar, 1> &D,
+                                          const Scalar alpha) {
   if (f.sizeAt(0) == static_cast<dope::SizeType>(0) ||
-      f.sizeAt(0) > D.sizeAt(0))
+      f.sizeAt(0) > D.sizeAt(0)) {
     return;
+  }
   if (f.sizeAt(0) == static_cast<dope::SizeType>(1)) {
     D[0] = f[0];
     return;
@@ -290,7 +341,8 @@ inline void DistanceTransform::distanceL2(const dope::DopeVector<Scalar, 1> &f,
       --k;
       // compute horizontal position of intersection between the parabola from q
       // and the current lowest parabola
-      s = ((f[q] + q * q) - static_cast<double>(f[v[k]] + v[k] * v[k])) /
+      s = ((f[q] / alpha + q * q) -
+           static_cast<double>(f[v[k]] / alpha + v[k] * v[k])) /
           (static_cast<double>(2 * q) - static_cast<double>(2 * v[k]));
     } while (s <= z[k]);
     ++k;
@@ -302,9 +354,11 @@ inline void DistanceTransform::distanceL2(const dope::DopeVector<Scalar, 1> &f,
   k = static_cast<dope::SizeType>(0);
   for (dope::SizeType q = static_cast<dope::SizeType>(0); q < f.sizeAt(0);
        ++q) {
-    while (z[k + 1] < static_cast<double>(q)) ++k;
-    D[q] = f[v[k]] +
-           (q - static_cast<Scalar>(v[k])) * (q - static_cast<Scalar>(v[k]));
+    while (z[k + 1] < static_cast<double>(q)) {
+      ++k;
+    }
+    D[q] = f[v[k]] + alpha * (q - static_cast<Scalar>(v[k])) *
+                         (q - static_cast<Scalar>(v[k]));
   }
 }
 
@@ -312,7 +366,7 @@ template <typename Scalar, dope::SizeType DIM>
 inline void DistanceTransform::distanceL2Helper(
     const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
     const dope::DopeVector<dope::SizeType, DIM> &Ipre,
-    dope::DopeVector<dope::SizeType, DIM> &Ipost) {
+    dope::DopeVector<dope::SizeType, DIM> &Ipost, const Scalar alpha) {
   dope::DopeVector<Scalar, DIM - 1> f_dq;
   dope::DopeVector<Scalar, DIM - 1> D_dq;
   dope::DopeVector<dope::SizeType, DIM - 1> Ipre_dq;
@@ -324,7 +378,7 @@ inline void DistanceTransform::distanceL2Helper(
     D.slice(0, q, D_dq);
     Ipre.slice(0, q, Ipre_dq);
     Ipost.slice(0, q, Ipost_dq);
-    distanceL2(f_dq, D_dq, Ipre_dq, Ipost_dq);
+    distanceL2(f_dq, D_dq, Ipre_dq, Ipost_dq, alpha);
   }
 }
 
@@ -332,7 +386,7 @@ template <typename Scalar, dope::SizeType DIM>
 inline void DistanceTransform::distanceL2(
     const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
     const dope::DopeVector<dope::SizeType, DIM> &Ipre,
-    dope::DopeVector<dope::SizeType, DIM> &Ipost) {
+    dope::DopeVector<dope::SizeType, DIM> &Ipost, const Scalar alpha) {
   dope::DopeVector<Scalar, DIM - 1> f_q, D_q;
   dope::DopeVector<dope::SizeType, DIM - 1> Ipre_q, Ipost_q;
   // compute distance at lower dimensions for each hyperplane
@@ -342,7 +396,7 @@ inline void DistanceTransform::distanceL2(
     D.at(q, D_q);
     Ipre.at(q, Ipre_q);
     Ipost.at(q, Ipost_q);
-    distanceL2(f_q, D_q, Ipre_q, Ipost_q);
+    distanceL2(f_q, D_q, Ipre_q, Ipost_q, alpha);
   }
 }
 
@@ -350,10 +404,11 @@ template <typename Scalar>
 inline void DistanceTransform::distanceL2(
     const dope::DopeVector<Scalar, 1> &f, dope::DopeVector<Scalar, 1> &D,
     const dope::DopeVector<dope::SizeType, 1> &Ipre,
-    dope::DopeVector<dope::SizeType, 1> &Ipost) {
+    dope::DopeVector<dope::SizeType, 1> &Ipost, const Scalar alpha) {
   if (f.sizeAt(0) == static_cast<dope::SizeType>(0) ||
-      f.sizeAt(0) > D.sizeAt(0))
+      f.sizeAt(0) > D.sizeAt(0)) {
     return;
+  }
   if (f.sizeAt(0) == static_cast<dope::SizeType>(1)) {
     D[0] = f[0];
     Ipost[0] = Ipre[0];
@@ -378,7 +433,8 @@ inline void DistanceTransform::distanceL2(
       --k;
       // compute horizontal position of intersection between the parabola from q
       // and the current lowest parabola
-      s = ((f[q] + q * q) - static_cast<double>(f[v[k]] + v[k] * v[k])) /
+      s = ((f[q] / alpha + q * q) -
+           static_cast<double>(f[v[k]] / alpha + v[k] * v[k])) /
           (static_cast<double>(2 * q) - static_cast<double>(2 * v[k]));
     } while (s <= z[k]);
     ++k;
@@ -390,9 +446,11 @@ inline void DistanceTransform::distanceL2(
   k = static_cast<dope::SizeType>(0);
   for (dope::SizeType q = static_cast<dope::SizeType>(0); q < f.sizeAt(0);
        ++q) {
-    while (z[k + 1] < static_cast<double>(q)) ++k;
-    D[q] = f[v[k]] +
-           (q - static_cast<Scalar>(v[k])) * (q - static_cast<Scalar>(v[k]));
+    while (z[k + 1] < static_cast<double>(q)) {
+      ++k;
+    }
+    D[q] = f[v[k]] + alpha * (q - static_cast<Scalar>(v[k])) *
+                         (q - static_cast<Scalar>(v[k]));
     Ipost[q] = Ipre[v[k]];
   }
 }

@@ -14,6 +14,7 @@
 #define INCLUDE_DISTANCE_TRANSFORM_DISTANCE_TRANSFORM_H_
 
 #include <thread>
+#include <vector>
 
 #include "dope_vector/Grid.h"
 
@@ -32,6 +33,8 @@ class DistanceTransform {
    *    @param D              The resulting distance field of f.
    *    @param squared        Compute squared distances (L2)^2 - avoiding to
    * compute square roots - (true) or keep them normal (false - default).
+   *    @param alphas         Weighting factor for anisotropic distances (square
+   * of pixel/voxel spacing)
    *    @param nThreads       The number of threads for parallel computation. If
    * <= 1, the computation will be sequential.
    *    @note Arrays f and D can also be the same.
@@ -40,6 +43,7 @@ class DistanceTransform {
   inline static void distanceTransformL2(
       const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
       const bool squared = false,
+      std::vector<Scalar> alphas = std::vector<Scalar>(DIM, 1.0),
       const std::size_t nThreads = std::thread::hardware_concurrency());
 
   /**
@@ -49,6 +53,8 @@ class DistanceTransform {
    *    @param D              The resulting distance field of f.
    *    @param squared        Compute squared distances (L2)^2 - avoiding to
    * compute square roots - (true) or keep them normal (false - default).
+   *    @param alphas         Weighting factor for anisotropic distances (square
+   * of pixel/voxel spacing)
    *    @param nThreads       The number of threads for parallel computation.
    * Actually NOT used, since it's not easy to run a single row computation in
    * parallel.
@@ -58,6 +64,7 @@ class DistanceTransform {
   inline static void distanceTransformL2(
       const dope::DopeVector<Scalar, 1> &f, dope::DopeVector<Scalar, 1> &D,
       const bool squared = false,
+      std::vector<Scalar> alphas = std::vector<Scalar>(1, 1.0),
       const std::size_t nThreads = std::thread::hardware_concurrency());
 
   /**
@@ -70,6 +77,8 @@ class DistanceTransform {
    * local minimum for each sample.
    *    @param squared        Compute squared distances (L2)^2 - avoiding to
    * compute square roots - (true) or keep them normal (false - default).
+   *    @param alphas         Weighting factor for anisotropic distances (square
+   * of pixel/voxel spacing)
    *    @param nThreads       The number of threads for parallel computation. If
    * <= 1, the computation will be sequential.
    *    @note Arrays f and D can also be the same. I should be first
@@ -79,6 +88,7 @@ class DistanceTransform {
   inline static void distanceTransformL2(
       const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
       dope::DopeVector<dope::SizeType, DIM> &I, const bool squared = false,
+      std::vector<Scalar> alphas = std::vector<Scalar>(DIM, 1.0),
       const std::size_t nThreads = std::thread::hardware_concurrency());
 
   /**
@@ -91,6 +101,8 @@ class DistanceTransform {
    * local minimum for each sample.
    *    @param squared        Compute squared distances (L2)^2 - avoiding to
    * compute square roots - (true) or keep them normal (false - default).
+   *    @param alphas         Weighting factor for anisotropic distances (square
+   * of pixel/voxel spacing)
    *    @param nThreads       The number of threads for parallel computation.
    * Actually NOT used, since it's not easy to run a single row computation in
    * parallel.
@@ -100,6 +112,7 @@ class DistanceTransform {
   inline static void distanceTransformL2(
       const dope::DopeVector<Scalar, 1> &f, dope::DopeVector<Scalar, 1> &D,
       dope::DopeVector<dope::SizeType, 1> &I, const bool squared = false,
+      std::vector<Scalar> alphas = std::vector<Scalar>(1, 1.0),
       const std::size_t nThreads = std::thread::hardware_concurrency());
 
   /**
@@ -126,12 +139,13 @@ class DistanceTransform {
    * window, in multi-threading).
    *    @param D             The resulting distance field of f (a window, in
    * multi-threading).
-   *    @param d             The dimension where to slice.
-   *    @param order         The order in which to permute the slices.
+   *    @param alpha         A multiplier stretching each parabola (L2 distance)
+   * vertically.
    */
   template <typename Scalar, dope::SizeType DIM>
   inline static void distanceL2Helper(const dope::DopeVector<Scalar, DIM> &f,
-                                      dope::DopeVector<Scalar, DIM> &D);
+                                      dope::DopeVector<Scalar, DIM> &D,
+                                      const Scalar alpha);
 
   /**
    *    @brief The actual distance field computation is done by recursive calls
@@ -141,7 +155,8 @@ class DistanceTransform {
    */
   template <typename Scalar, dope::SizeType DIM>
   inline static void distanceL2(const dope::DopeVector<Scalar, DIM> &f,
-                                dope::DopeVector<Scalar, DIM> &D);
+                                dope::DopeVector<Scalar, DIM> &D,
+                                const Scalar alpha);
 
   /**
    *    @brief The actual distance field computation as in the "Distance
@@ -152,7 +167,8 @@ class DistanceTransform {
    */
   template <typename Scalar>
   inline static void distanceL2(const dope::DopeVector<Scalar, 1> &f,
-                                dope::DopeVector<Scalar, 1> &D);
+                                dope::DopeVector<Scalar, 1> &D,
+                                const Scalar alpha);
 
   /**
    *    @brief The loop iteration process that can be executed sequentially and
@@ -170,7 +186,7 @@ class DistanceTransform {
   inline static void distanceL2Helper(
       const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
       const dope::DopeVector<dope::SizeType, DIM> &Ipre,
-      dope::DopeVector<dope::SizeType, DIM> &Ipost);
+      dope::DopeVector<dope::SizeType, DIM> &Ipost, const Scalar alpha);
 
   /**
    *    @brief The actual distance field computation is done by recursive calls
@@ -184,7 +200,7 @@ class DistanceTransform {
   inline static void distanceL2(
       const dope::DopeVector<Scalar, DIM> &f, dope::DopeVector<Scalar, DIM> &D,
       const dope::DopeVector<dope::SizeType, DIM> &Ipre,
-      dope::DopeVector<dope::SizeType, DIM> &Ipost);
+      dope::DopeVector<dope::SizeType, DIM> &Ipost, const Scalar alpha);
 
   /**
    *    @brief The actual distance field computation as in the "Distance
@@ -199,7 +215,8 @@ class DistanceTransform {
   inline static void distanceL2(const dope::DopeVector<Scalar, 1> &f,
                                 dope::DopeVector<Scalar, 1> &D,
                                 const dope::DopeVector<dope::SizeType, 1> &Ipre,
-                                dope::DopeVector<dope::SizeType, 1> &Ipost);
+                                dope::DopeVector<dope::SizeType, 1> &Ipost,
+                                const Scalar alpha);
 
  public:
   /**

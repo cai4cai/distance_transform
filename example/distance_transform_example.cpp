@@ -92,7 +92,8 @@ int runexample() {
 
   std::chrono::steady_clock::time_point start =
       std::chrono::steady_clock::now();
-  dt::DistanceTransform::distanceTransformL2(f, f, indices, false, 1);
+  dt::DistanceTransform::distanceTransformL2(f, f, indices, false,
+                                             std::vector<float>(2, 1.0), 1);
   std::cout << std::endl
             << "2D distance function computed in: "
             << std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -137,7 +138,8 @@ int runexample() {
   }
 
   start = std::chrono::steady_clock::now();
-  dt::DistanceTransform::distanceTransformL2(fWin, fWin, indicesWin, true, 1);
+  dt::DistanceTransform::distanceTransformL2(fWin, fWin, indicesWin, true,
+                                             std::vector<float>(2, 1.0), 1);
   std::cout << std::endl
             << "2D distance function computed on the window in: "
             << std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -168,7 +170,8 @@ int runexample() {
       f2D[i][j] = std::numeric_limits<float>::max();
   f2D[0][0] = 0.0f;
   start = std::chrono::steady_clock::now();
-  dt::DistanceTransform::distanceTransformL2(f2D, f2D, false, 1);
+  dt::DistanceTransform::distanceTransformL2(f2D, f2D, false,
+                                             std::vector<float>(2, 1.0), 1);
   std::cout << std::endl
             << size[0] << 'x' << size[1] << " distance function computed in: "
             << std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -185,7 +188,8 @@ int runexample() {
         f3D[i][j][k] = std::numeric_limits<float>::max();
   f3D[0][0][0] = 0.0f;
   start = std::chrono::steady_clock::now();
-  dt::DistanceTransform::distanceTransformL2(f3D, f3D, false, 1);
+  dt::DistanceTransform::distanceTransformL2(f3D, f3D, false,
+                                             std::vector<float>(3, 1.0), 1);
   std::cout << std::endl
             << size3D[0] << 'x' << size3D[1] << 'x' << size3D[2]
             << " distance function computed in: "
@@ -202,7 +206,8 @@ int runexample() {
   f3D[0][0][0] = 0.0f;
   start = std::chrono::steady_clock::now();
   dt::DistanceTransform::distanceTransformL2(
-      f3D, f3D, false, std::thread::hardware_concurrency());
+      f3D, f3D, false, std::vector<float>(3, 1.0),
+      std::thread::hardware_concurrency());
   std::cout << std::endl
             << size3D[0] << 'x' << size3D[1] << 'x' << size3D[2]
             << " distance function (concurrently) computed in: "
@@ -220,7 +225,8 @@ int runexample() {
       f2DBig[i][j] = std::numeric_limits<float>::max();
   f2DBig[0][0] = 0.0f;
   start = std::chrono::steady_clock::now();
-  dt::DistanceTransform::distanceTransformL2(f2DBig, f2DBig, false, 1);
+  dt::DistanceTransform::distanceTransformL2(f2DBig, f2DBig, false,
+                                             std::vector<float>(2, 1.0), 1);
   std::cout << std::endl
             << size[0] << 'x' << size[1] << " distance function computed in: "
             << std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -235,7 +241,8 @@ int runexample() {
   f2DBig[0][0] = 0.0f;
   start = std::chrono::steady_clock::now();
   dt::DistanceTransform::distanceTransformL2(
-      f2DBig, f2DBig, false, std::thread::hardware_concurrency());
+      f2DBig, f2DBig, false, std::vector<float>(2, 1.0),
+      std::thread::hardware_concurrency());
   std::cout << std::endl
             << size[0] << 'x' << size[1]
             << " distance function (concurrently) computed in: "
@@ -257,7 +264,8 @@ int runexample() {
               f6D[i][j][k][l][m][n] = std::numeric_limits<float>::max();
   f6D[0][0][0][0][0][0] = 0.0f;
   start = std::chrono::steady_clock::now();
-  dt::DistanceTransform::distanceTransformL2(f6D, f6D, false, 1);
+  dt::DistanceTransform::distanceTransformL2(f6D, f6D, false,
+                                             std::vector<float>(6, 1.0), 1);
   std::cout << std::endl
             << size6D[0] << 'x' << size6D[1] << 'x' << size6D[2] << 'x'
             << size6D[3] << 'x' << size6D[4] << 'x' << size6D[5]
